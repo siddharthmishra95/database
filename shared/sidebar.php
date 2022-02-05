@@ -24,7 +24,7 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="<?php echo BASE_URL; ?>recruiter/index.php">
+      <a class="nav-link" href="<?php echo BASE_URL; ?>recruiter/dashboard.php">
         <span class="menu-title">Dashboard</span>
         <i class="mdi mdi-home menu-icon"></i>
       </a>
