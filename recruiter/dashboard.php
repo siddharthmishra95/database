@@ -519,6 +519,12 @@ include('../shared/header.php')
                         mysqli_query($db, $sql);
                         header('location: dashboard.php');
                       }
+                    }
+                    if (isset($_GET['del_task'])) {
+                      $id = $_GET['del_task'];
+                    
+                      mysqli_query($db, "DELETE FROM tasks WHERE id=".$id);
+                      header('location: dashboard.php');
                     }	
                   ?>
 
@@ -533,7 +539,24 @@ include('../shared/header.php')
                     <button type="submit" name="addtask" id="add_btn"
                       class="add btn btn-gradient-primary font-weight-bold add_btn">Add Task</button>
                   </form>
+                  <div class="list-wrapper">
+                    <?php 
 
+                        $tasks = mysqli_query($db, "SELECT * FROM tasks WHERE empid=$_SESSION[empid]");
+                        $i = 1; while ($row = mysqli_fetch_array($tasks)) { ?>
+                    <ul class="d-flex flex-column-reverse todo-list">
+                      <li>
+                        <div class="form-check">
+                          <label class="form-check-label">
+                            <input class="checkbox" type="checkbox"> <?php echo $row['task']; ?> <i
+                              class="input-helper"></i></label>
+                        </div>
+                        <a href="dashboard.php?del_task=<?php echo $row['id'] ?>"><i
+                            class="remove mdi mdi-close-circle-outline"></i></a>
+                      </li>
+                    </ul>
+                    <?php $i++; } ?>
+                  </div>
                 </div>
               </div>
             </div>
