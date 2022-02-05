@@ -11,5 +11,7 @@ include('bootstrap.php');
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/vendors/mdi/css/materialdesignicons.min.css">
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/vendors/css/vendor.bundle.base.css">
   <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/style.css">
+  <link rel="stylesheet" href="<?php echo BASE_URL; ?>assets/css/custom.css">
   <link rel="shortcut icon" href="<?php echo BASE_URL; ?>assets/images/favicon.ico" />
+  <script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 </head>
