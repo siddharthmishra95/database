@@ -52,7 +52,7 @@
       </a>
       <div class="collapse" id="ui-basic-new">
         <ul class="nav flex-column sub-menu">
-          <li class="nav-item"> <a class="nav-link" href="<?php echo BASE_URL; ?>SuperAdmin/Employee.php">Employee</a>
+          <li class="nav-item"> <a class="nav-link" href="<?php echo BASE_URL; ?>recruiter/Employee.php">Employee</a>
           </li>
           <!-- <li class="nav-item"> <a class="nav-link" href="<?php echo BASE_URL; ?>recruiter/allcandidate.php">Candidate
               Database</a></li> -->
