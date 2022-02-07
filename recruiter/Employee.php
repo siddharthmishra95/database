@@ -17,13 +17,13 @@ include('../shared/header.php')
         <div class="modal-dialog" role="document">
           <div class="modal-content">
             <div class="modal-header">
-              <h5 class="modal-title" id="exampleModalLabel">Add Student Data </h5>
+              <h5 class="modal-title" id="exampleModalLabel">Add Employee Data </h5>
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
 
-            <form action="actions/insertcode.php" method="POST">
+            <form action="actions/employee/insertcode.php" method="POST">
 
               <div class="modal-body">
                 <div class="form-group">
@@ -66,7 +66,6 @@ include('../shared/header.php')
         </div>
       </div>
 
-
       <!-- EDIT POP UP FORM (Bootstrap MODAL) -->
       <div class="modal fade" id="editmodal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
         aria-hidden="true">
@@ -79,7 +78,7 @@ include('../shared/header.php')
               </button>
             </div>
 
-            <form action="actions/updatecode.php" method="POST">
+            <form action="actions/employee/updatecode.php" method="POST">
 
               <div class="modal-body">
 
@@ -137,7 +136,7 @@ include('../shared/header.php')
               </button>
             </div>
 
-            <form action="actions/deletecode.php" method="POST">
+            <form action="actions/employee/deletecode.php" method="POST">
 
               <div class="modal-body">
 

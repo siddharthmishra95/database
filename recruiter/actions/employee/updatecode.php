@@ -1,5 +1,5 @@
 <?php
-include '../../config/dbconfig.php';
+include '../../../config/dbconfig.php';
 
     if(isset($_POST['updatedata']))
     {   
@@ -17,7 +17,7 @@ include '../../config/dbconfig.php';
         if($query_run)
         {
             echo '<script> alert("Data Updated"); </script>';
-            header("Location:../Employee.php");
+            header("Location:../../Employee.php");
         }
         else
         {

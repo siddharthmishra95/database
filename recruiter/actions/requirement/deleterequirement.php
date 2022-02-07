@@ -1,17 +1,17 @@
 <?php
-include '../../config/dbconfig.php';
+include '../../../config/dbconfig.php';
 
-if(isset($_POST['deletedata']))
+if(isset($_POST['deleterequirement']))
 {
-    $usr_id = $_POST['delete_id'];
+    $id = $_POST['delete_id'];
 
-    $query = "DELETE FROM registration WHERE usr_id='$usr_id'";
+    $query = "DELETE FROM requirement WHERE id='$id'";
     $query_run = mysqli_query($conn, $query);
 
     if($query_run)
     {
         echo '<script> alert("Data Deleted"); </script>';
-        header("Location:../Employee.php");
+        header("Location:../../addrequirement.php");
     }
     else
     {
