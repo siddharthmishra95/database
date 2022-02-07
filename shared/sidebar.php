@@ -66,9 +66,9 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="pages/forms/basic_elements.html">
-        <span class="menu-title">Forms</span>
-        <i class="mdi mdi-format-list-bulleted menu-icon"></i>
+      <a class="nav-link" href="<?php echo BASE_URL; ?>recruiter/clients.php">
+        <span class="menu-title">Clients</span>
+        <i class="mdi mdi-car menu-icon"></i>
       </a>
     </li>
     <li class="nav-item">
