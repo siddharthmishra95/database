@@ -1,5 +1,10 @@
 <?php
-include('../shared/header.php')
+include('../shared/header.php');
+session_start();
+if($_SESSION['name']=='')
+  {
+     header('location:../index.php');
+  }
 ?>
 
 <body>
@@ -158,8 +163,10 @@ include('../shared/header.php')
         <div class="content-wrapper">
           <div class="card">
             <div class="card-body">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentaddmodal">
-                ADD DATA
+              <button type="button" class="btn btn-block btn-lg btn-gradient-primary mt-4 float-right"
+                data-toggle="modal" data-target="#studentaddmodal">
+                <i class="mdi mdi-account-plus text-white mr-0 mr-sm-4 icon-lg"></i>
+                ADD EMPLOYEE
               </button>
             </div>
           </div>
@@ -169,9 +176,7 @@ include('../shared/header.php')
                 <h4 class="card-title">All Employee</h4>
                 <div class="table-responsive">
                   <?php 
-                     
                       $limit = 10;
-                      
                       if(isset($_GET['page'])){
                         $page = $_GET['page'];
                       }else{

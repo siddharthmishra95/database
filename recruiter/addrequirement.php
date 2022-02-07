@@ -1,5 +1,10 @@
 <?php
-include('../shared/header.php')
+include('../shared/header.php');
+session_start();
+if($_SESSION['name']=='')
+  {
+     header('location:../index.php');
+  }
 ?>
 
 <body>
@@ -394,7 +399,9 @@ include('../shared/header.php')
         <div class="content-wrapper">
           <div class="card">
             <div class="card-body">
-              <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#studentaddmodal">
+              <button type="button" class="btn btn-block btn-lg btn-gradient-primary mt-4 float-right"
+                data-toggle="modal" data-target="#studentaddmodal">
+                <i class="mdi mdi-note-plus text-white mr-0 mr-sm-4 icon-lg"></i>
                 ADD REQUIREMENT
               </button>
             </div>

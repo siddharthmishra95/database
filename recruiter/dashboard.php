@@ -1,5 +1,10 @@
 <?php
-include('../shared/header.php')
+include('../shared/header.php');
+session_start();
+if($_SESSION['name']=='')
+  {
+     header('location:../index.php');
+  }
 ?>
 
 <body>
@@ -364,12 +369,20 @@ include('../shared/header.php')
                       <div class="card-body">
                         <h4 class="card-title">Today Requirement Entry</h4>
                         <div class="table-responsive">
-                          <?php 
-                                                       
-                                                        date_default_timezone_set('Asia/Kolkata');
-                                                        $currentDateTime = date('d-M-Y');
-                                                        $result = mysqli_query($conn, "SELECT * from requirement where data='$currentDateTime' "  );
-                                                    ?>
+                          <?php   
+                              $limit = 10;
+                              if(isset($_GET['page'])){
+                                $page = $_GET['page'];
+                              }else{
+                                $page = 1;
+                              }
+                              $offset = ($page - 1) * $limit;
+                              date_default_timezone_set('Asia/Kolkata');
+                              $currentDateTime = date('d-M-Y');
+                              $sql = "SELECT * from requirement where data='$currentDateTime' ORDER BY id DESC LIMIT {$offset},{$limit}";
+                              $result = mysqli_query($conn, $sql ) or die("Query failed");
+                              if(mysqli_num_rows($result) > 0){
+                          ?>
                           <table id="example" class="table table-striped table-bordered display responsive nowrap"
                             cellspacing="0" style="width:100%">
                             <thead>
@@ -389,9 +402,7 @@ include('../shared/header.php')
                               </tr>
                             </thead>
                             <tbody>
-                              <?php while ($row = $result->fetch_assoc()) {
-                                                                # code...
-                                                            ?>
+                              <?php while ($row = $result->fetch_assoc()) {?>
                               <tr>
                                 <td><?= $row['jobid']; ?></td>
                                 <td><?= $row['reqdate']; ?></td>
@@ -408,6 +419,36 @@ include('../shared/header.php')
                               <?php } ?>
                             </tbody>
                           </table>
+                          <?php } 
+                            date_default_timezone_set('Asia/Kolkata');
+                            $currentDateTime = date('d-M-Y');
+                            $sql1 = "SELECT * from requirement where data='$currentDateTime'";
+                            $result1 = mysqli_query($conn, $sql1 ) or die("Query failed");
+                            if(mysqli_num_rows($result1) > 0) {
+                              $total_records = mysqli_num_rows($result1);
+                              $total_page = ceil($total_records / $limit);
+                              echo '<nav>
+                              <ul class="pagination rounded-flat pagination-success">';
+                              if($page > 1){
+                                echo '<li class="page-item"><a class="page-link" href="dashboard.php?page='.($page -1 ).'"><i class="mdi mdi-chevron-left"></i></a></li>';
+                              }
+                            
+                              for($i = 1; $i <= $total_page; $i++) {
+                                if($i == $page){
+                                  $active = "active";
+                                }else{
+                                  $active = "";
+                                }
+                                echo '<li class="page-item '.$active.' "><a class="page-link" href="dashboard.php?page='.$i.'">'.$i.'</a></li>';
+                              }
+                              if($total_page > $page){
+                                echo '<li class="page-item"><a class="page-link" href="dashboard.php?page='.($page + 1 ).'"><i class="mdi mdi-chevron-right"></i></a></li>';
+                              }
+                            
+                              echo '</ul>
+                              </nav>';
+                            }
+                          ?>
                         </div>
                       </div>
                     </div>
