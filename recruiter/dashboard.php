@@ -143,7 +143,7 @@ if($_SESSION['name']=='')
                 </div>
               </div>
             </div>
-            <div class="col-md-4 stretch-card grid-margin">
+            <!-- <div class="col-md-4 stretch-card grid-margin">
               <div class="card bg-gradient-danger card-img-holder text-white">
                 <div class="card-body">
                   <img src="<?php echo BASE_URL; ?>/assets/images/dashboard/circle.svg" class="card-img-absolute"
@@ -181,7 +181,7 @@ if($_SESSION['name']=='')
                   <h6 class="card-text">Increased by 5%</h6>
                 </div>
               </div>
-            </div>
+            </div> -->
           </div>
 
           <div class="col-12 grid-margin">
@@ -634,6 +634,35 @@ if($_SESSION['name']=='')
 
             </div>
           </div>
+
+          <!-- USERS TODAYS REPORTING IN GRAPH STARTS   -->
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="clearfix col-md-9">
+                    <h4 class="card-title float-left">Todays Users Reports</h4>
+                    <select name='uploaded' class="form-control" id='uploaded'>
+                      <option value="">Select Users</option>
+                      <?php
+                       date_default_timezone_set('Asia/Kolkata');
+                       $currentDateTime = date('d-M-Y');
+                        $records = mysqli_query($conn, "SELECT uploaded FROM crud WHERE data='$currentDateTime' GROUP BY uploaded DESC");  // Use select query here        
+                        while($data = mysqli_fetch_array($records))
+                        {
+                            echo "<option value='". $data['uploaded'] ."'>" .$data['uploaded'] ."</option>";  // displaying data in option menu
+                        }	
+                      ?>
+                    </select>
+                  </div>
+                  <div class="panel-body">
+                    <div id="chart_area" class="mt-4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- USERS TODAYS REPORTING IN GRAPH ENDS -->
           <?php  } elseif($role == "users") { ?>
           <div class="row">
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
@@ -1185,6 +1214,28 @@ if($_SESSION['name']=='')
 
             </div>
           </div>
+
+          <div class="row">
+            <div class="col-md-12 grid-margin stretch-card">
+              <div class="card">
+                <div class="card-body">
+                  <div class="clearfix col-md-9">
+                    <h4 class="card-title float-left">Your Todays Reports</h4>
+                    <?php
+                       date_default_timezone_set('Asia/Kolkata');
+                       $currentDateTime = date('d-M-Y');
+                       $emprecords = mysqli_query($conn, "SELECT status, count(*) as number FROM crud where uploaded=$_SESSION[empid] AND data='$currentDateTime' GROUP By status");  // Use select query here         
+                      ?>
+                  </div>
+                  <div class="panel-body">
+                    <div id="piechart-new-offer-o" class="mt-4"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+
           <?php } elseif($role == "Admin") { ?>
           Admin
           <?php  } elseif($role == "tempusers") { ?>
@@ -1255,38 +1306,18 @@ if($_SESSION['name']=='')
 
           <!-- TODO APPLICATION ENDS -->
 
-          <div class="row">
-            <div class="col-md-7 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <div class="clearfix">
-                    <h4 class="card-title float-left">Visit And Sales Statistics</h4>
-                    <div id="visit-sale-chart-legend"
-                      class="rounded-legend legend-horizontal legend-top-right float-right"></div>
-                  </div>
-                  <canvas id="visit-sale-chart" class="mt-4"></canvas>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-5 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Traffic Sources</h4>
-                  <canvas id="traffic-chart"></canvas>
-                  <div id="traffic-chart-legend" class="rounded-legend legend-vertical legend-bottom-left pt-4"></div>
-                </div>
-              </div>
-            </div>
-          </div>
+
+
           <div class="row">
             <div class="col-12 grid-margin">
               <div class="card">
                 <div class="card-body">
                   <h4 class="card-title">Todays Joining</h4>
-                  <?php   
+                  <?php
+                    $noresults = true;   
                     $today = date('Y-m-d');
-                    $result = mysqli_query($conn, "SELECT * FROM `products` WHERE doj = '2022-02-07' AND status = 'YTJ'" );
-                ?>
+                    $result = mysqli_query($conn, "SELECT * FROM `products` WHERE doj = '$today' AND status = 'YTJ' AND empid=$_SESSION[empid] " );
+                  ?>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
@@ -1299,7 +1330,7 @@ if($_SESSION['name']=='')
                         </tr>
                       </thead>
                       <?php while ($row = $result->fetch_assoc()) {
-                                                      # code...
+                                  $noresults = false;                    # code...
                         ?>
                       <tbody>
                         <tr>
@@ -1314,7 +1345,13 @@ if($_SESSION['name']=='')
                           <td> <?= $row['contact']; ?> </td>
                           <td> <?= $row['sal']; ?> </td>
                         </tr>
-                        <?php }?>
+                        <?php }
+                          if($noresults){
+                            echo '<div class="jumbotron">
+                                    <h1>No Joinings Today</h1>                  
+                                  </div>';
+                          }
+                        ?>
                       </tbody>
                     </table>
                   </div>
@@ -1322,198 +1359,7 @@ if($_SESSION['name']=='')
               </div>
             </div>
           </div>
-          <div class="row">
-            <div class="col-12 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Recent Updates</h4>
-                  <div class="d-flex">
-                    <div class="d-flex align-items-center me-4 text-muted font-weight-light">
-                      <i class="mdi mdi-account-outline icon-sm me-2"></i>
-                      <span>jack Menqu</span>
-                    </div>
-                    <div class="d-flex align-items-center text-muted font-weight-light">
-                      <i class="mdi mdi-clock icon-sm me-2"></i>
-                      <span>October 3rd, 2018</span>
-                    </div>
-                  </div>
-                  <div class="row mt-3">
-                    <div class="col-6 pe-1">
-                      <img src="<?php echo BASE_URL; ?>/assets/images/dashboard/img_1.jpg"
-                        class="mb-2 mw-100 w-100 rounded" alt="image">
-                      <img src="<?php echo BASE_URL; ?>/assets/images/dashboard/img_4.jpg" class="mw-100 w-100 rounded"
-                        alt="image">
-                    </div>
-                    <div class="col-6 ps-1">
-                      <img src="<?php echo BASE_URL; ?>/assets/images/dashboard/img_2.jpg"
-                        class="mb-2 mw-100 w-100 rounded" alt="image">
-                      <img src="<?php echo BASE_URL; ?>/assets/images/dashboard/img_3.jpg" class="mw-100 w-100 rounded"
-                        alt="image">
-                    </div>
-                  </div>
-                  <div class="d-flex mt-5 align-items-top">
-                    <img src="<?php echo BASE_URL; ?>/assets/images/faces/face3.jpg" class="img-sm rounded-circle me-3"
-                      alt="image">
-                    <div class="mb-0 flex-grow">
-                      <h5 class="me-2 mb-2">School Website - Authentication Module.</h5>
-                      <p class="mb-0 font-weight-light">It is a long established fact that a reader will be distracted
-                        by the readable content of a page.</p>
-                    </div>
-                    <div class="ms-auto">
-                      <i class="mdi mdi-heart-outline text-muted"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-7 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Project Status</h4>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th> # </th>
-                          <th> Name </th>
-                          <th> Due Date </th>
-                          <th> Progress </th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr>
-                          <td> 1 </td>
-                          <td> Herman Beck </td>
-                          <td> May 15, 2015 </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-success" role="progressbar" style="width: 25%"
-                                aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> 2 </td>
-                          <td> Messsy Adam </td>
-                          <td> Jul 01, 2015 </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 75%"
-                                aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> 3 </td>
-                          <td> John Richards </td>
-                          <td> Apr 12, 2015 </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-warning" role="progressbar" style="width: 90%"
-                                aria-valuenow="90" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> 4 </td>
-                          <td> Peter Meggik </td>
-                          <td> May 15, 2015 </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-primary" role="progressbar" style="width: 50%"
-                                aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> 5 </td>
-                          <td> Edward </td>
-                          <td> May 03, 2015 </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-danger" role="progressbar" style="width: 35%"
-                                aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                        </tr>
-                        <tr>
-                          <td> 5 </td>
-                          <td> Ronald </td>
-                          <td> Jun 05, 2015 </td>
-                          <td>
-                            <div class="progress">
-                              <div class="progress-bar bg-gradient-info" role="progressbar" style="width: 65%"
-                                aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-                            </div>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-5 grid-margin stretch-card">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title text-white">Todo</h4>
-                  <div class="add-items d-flex">
-                    <input type="text" class="form-control todo-list-input" placeholder="What do you need to do today?">
-                    <button class="add btn btn-gradient-primary font-weight-bold todo-list-add-btn"
-                      id="add-task">Add</button>
-                  </div>
-                  <div class="list-wrapper">
-                    <ul class="d-flex flex-column-reverse todo-list todo-list-custom">
-                      <li>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="checkbox" type="checkbox"> Meeting with Alisa </label>
-                        </div>
-                        <i class="remove mdi mdi-close-circle-outline"></i>
-                      </li>
-                      <li class="completed">
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="checkbox" type="checkbox" checked> Call John </label>
-                        </div>
-                        <i class="remove mdi mdi-close-circle-outline"></i>
-                      </li>
-                      <li>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="checkbox" type="checkbox"> Create invoice </label>
-                        </div>
-                        <i class="remove mdi mdi-close-circle-outline"></i>
-                      </li>
-                      <li>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="checkbox" type="checkbox"> Print Statements </label>
-                        </div>
-                        <i class="remove mdi mdi-close-circle-outline"></i>
-                      </li>
-                      <li class="completed">
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="checkbox" type="checkbox" checked> Prepare for presentation </label>
-                        </div>
-                        <i class="remove mdi mdi-close-circle-outline"></i>
-                      </li>
-                      <li>
-                        <div class="form-check">
-                          <label class="form-check-label">
-                            <input class="checkbox" type="checkbox"> Pick up kids from school </label>
-                        </div>
-                        <i class="remove mdi mdi-close-circle-outline"></i>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
@@ -1535,3 +1381,87 @@ if($_SESSION['name']=='')
   <?php
 include('../shared/footer.php')
 ?>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script type="text/javascript">
+  google.charts.load('current', {
+    packages: ['corechart', 'bar']
+  });
+  google.charts.setOnLoadCallback();
+
+  function load_monthwise_data(uploaded, title) {
+    var temp_title = title + ' ' + uploaded + '';
+    $.ajax({
+      url: "ajax/reports/today-report.php",
+      method: "POST",
+      data: {
+        uploaded: uploaded
+      },
+      dataType: "JSON",
+      success: function(data) {
+        drawMonthwiseChart(data, temp_title);
+      }
+    });
+  }
+
+  function drawMonthwiseChart(chart_data, chart_main_title) {
+    var jsonData = chart_data;
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'status');
+    data.addColumn('number', 'number');
+    $.each(jsonData, function(i, jsonData) {
+      var status = jsonData.status;
+      var number = parseFloat($.trim(jsonData.number));
+      data.addRows([
+        [status, number]
+      ]);
+    });
+    var options = {
+      title: chart_main_title,
+      hAxis: {
+        title: "STATUS"
+      },
+      vAxis: {
+        title: 'TOTAL NUMBERS'
+      }
+    };
+
+    var chart = new google.visualization.ColumnChart(document.getElementById('chart_area'));
+    chart.draw(data, options);
+  }
+  </script>
+  <script type="text/javascript">
+  google.charts.load('current', {
+    'packages': ['corechart']
+  });
+  google.charts.setOnLoadCallback(drawChart);
+
+  function drawChart() {
+    var data = google.visualization.arrayToDataTable([
+      ['status', 'Number'],
+      <?php
+                        while ($row = mysqli_fetch_array($emprecords)) {
+                            echo "['" . $row["status"] . "', " . $row["number"] . "],";
+                        }
+                        ?>
+    ]);
+    var options = {
+      title: 'Your Todays Candiate Entry reports',
+      is3D: true,
+      pieHole: 0.1
+    };
+    var chart = new google.visualization.ColumnChart(document.getElementById('piechart-new-offer-o'));
+    chart.draw(data, options);
+  }
+  </script>
+  <script>
+  $(document).ready(function() {
+
+    $('#uploaded').change(function() {
+      var uploaded = $(this).val();
+      if (uploaded != '') {
+        load_monthwise_data(uploaded, 'Status Wise Data For');
+      }
+    });
+
+  });
+  </script>
