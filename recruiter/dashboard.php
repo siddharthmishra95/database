@@ -1282,67 +1282,39 @@ if($_SESSION['name']=='')
             <div class="col-12 grid-margin">
               <div class="card">
                 <div class="card-body">
-                  <h4 class="card-title">Recent Tickets</h4>
+                  <h4 class="card-title">Todays Joining</h4>
+                  <?php   
+                    $today = date('Y-m-d');
+                    $result = mysqli_query($conn, "SELECT * FROM `products` WHERE doj = '2022-02-07' AND status = 'YTJ'" );
+                ?>
                   <div class="table-responsive">
                     <table class="table">
                       <thead>
                         <tr>
-                          <th> Assignee </th>
-                          <th> Subject </th>
+                          <th> Candidate Name </th>
+                          <th> Date Offer </th>
                           <th> Status </th>
-                          <th> Last Update </th>
-                          <th> Tracking ID </th>
+                          <th> Phone No. </th>
+                          <th> Salary </th>
                         </tr>
                       </thead>
+                      <?php while ($row = $result->fetch_assoc()) {
+                                                      # code...
+                        ?>
                       <tbody>
                         <tr>
                           <td>
-                            <img src="<?php echo BASE_URL; ?>/assets/images/faces/face1.jpg" class="me-2" alt="image">
-                            David Grey
+                            <img src="<?php echo BASE_URL; ?>assets/images/faces/face1.jpg" class="me-2" alt="image">
+                            <?= $row['candidatename']; ?>
                           </td>
-                          <td> Fund is not recieved </td>
+                          <td> <?= $row['datoffer']; ?> </td>
                           <td>
-                            <label class="badge badge-gradient-success">DONE</label>
+                            <label class="badge badge-gradient-success"><?= $row['status']; ?></label>
                           </td>
-                          <td> Dec 5, 2017 </td>
-                          <td> WD-12345 </td>
+                          <td> <?= $row['contact']; ?> </td>
+                          <td> <?= $row['sal']; ?> </td>
                         </tr>
-                        <tr>
-                          <td>
-                            <img src="<?php echo BASE_URL; ?>/assets/images/faces/face2.jpg" class="me-2" alt="image">
-                            Stella Johnson
-                          </td>
-                          <td> High loading time </td>
-                          <td>
-                            <label class="badge badge-gradient-warning">PROGRESS</label>
-                          </td>
-                          <td> Dec 12, 2017 </td>
-                          <td> WD-12346 </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <img src="<?php echo BASE_URL; ?>/assets/images/faces/face3.jpg" class="me-2" alt="image">
-                            Marina Michel
-                          </td>
-                          <td> Website down for one week </td>
-                          <td>
-                            <label class="badge badge-gradient-info">ON HOLD</label>
-                          </td>
-                          <td> Dec 16, 2017 </td>
-                          <td> WD-12347 </td>
-                        </tr>
-                        <tr>
-                          <td>
-                            <img src="<?php echo BASE_URL; ?>/assets/images/faces/face4.jpg" class="me-2" alt="image">
-                            John Doe
-                          </td>
-                          <td> Loosing control on server </td>
-                          <td>
-                            <label class="badge badge-gradient-danger">REJECTED</label>
-                          </td>
-                          <td> Dec 3, 2017 </td>
-                          <td> WD-12348 </td>
-                        </tr>
+                        <?php }?>
                       </tbody>
                     </table>
                   </div>
