@@ -1,0 +1,13 @@
+1. Person Status ? Need To find
+2. Benifits screen ----  Jaspreet;
+3. Create Screen for W4 data ----  Alok;
+4. Download W4 data ----- As PDF send and download -------------Alok;
+5. Salary Slip History ------ Jaspreet; 
+6. Send Time Card Data, Bonus Data, Expense Data to Zeal ----- Jaspreet;
+7. Data For Sending Check ;
+
+
+
+
+
+

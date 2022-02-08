@@ -72,8 +72,8 @@
       </a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" href="pages/charts/chartjs.html">
-        <span class="menu-title">Charts</span>
+      <a class="nav-link" href="<?php echo BASE_URL; ?>recruiter/reports.php">
+        <span class="menu-title">Reports</span>
         <i class="mdi mdi-chart-bar menu-icon"></i>
       </a>
     </li>

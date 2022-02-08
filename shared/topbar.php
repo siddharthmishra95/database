@@ -8,9 +8,9 @@ include '../action.php';
 ?>
 <nav class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
   <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
-    <a class="navbar-brand brand-logo" href="index.html"><img src="<?php echo BASE_URL; ?>assets/images/logo.svg"
-        alt="logo" /></a>
-    <a class="navbar-brand brand-logo-mini" href="index.html"><img
+    <a class="navbar-brand brand-logo" href="<?php echo BASE_URL; ?>"><img
+        src="<?php echo BASE_URL; ?>assets/images/logo.svg" alt="logo" /></a>
+    <a class="navbar-brand brand-logo-mini" href="<?php echo BASE_URL; ?>"><img
         src="<?php echo BASE_URL; ?>assets/images/logo-mini.svg" alt="logo" /></a>
   </div>
   <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -18,12 +18,15 @@ include '../action.php';
       <span class="mdi mdi-menu"></span>
     </button>
     <div class="search-field d-none d-md-block">
-      <form class="d-flex align-items-center h-100" action="#">
+      <form class="d-flex align-items-center h-100" method="get" action="search.php">
         <div class="input-group">
           <div class="input-group-prepend bg-transparent">
             <i class="input-group-text border-0 mdi mdi-magnify"></i>
           </div>
-          <input type="text" class="form-control bg-transparent border-0" placeholder="Search projects">
+          <input type="text" class="form-control bg-transparent border-0" name="search" placeholder="Search Candidates">
+          <button type="submit" class="btn btn-gradient-danger btn-rounded btn-icon">
+            <i class=" mdi mdi-account-search text-white mr-0 mr-sm-4 icon-lg"></i>
+          </button>
         </div>
       </form>
     </div>
