@@ -181,6 +181,7 @@ if($_SESSION['name']=='')
                         <th>ID</th>
                         <th>DATE</th>
                         <th>Client name</th>
+                        <th>Enable / Disable</th>
                         <th>Action</th>
                       </tr>
                     </thead>
@@ -193,6 +194,15 @@ if($_SESSION['name']=='')
                         <td><?= $row['id']; ?></td>
                         <td><?= $row['dat']; ?></td>
                         <td><?= $row['client_name']; ?></td>
+                        <td class="text-center">
+                          <?php
+                          if($row['client_status']==1){
+                            echo '<span class="btn btn-gradient-success"><a href="status.php?id='.$row['id'].'&client_status=0" style="text-decoration:none;color:white">ACTIVE</a></span>';
+                          }else{
+                            echo '<span class="btn btn-gradient-danger"><a href="status.php?id='.$row['id'].'&client_status=1" style="text-decoration:none;color:white">INACTIVE</a></span>';
+                          }
+                          ?>
+                        </td>
                         <td>
                           <button type="button" class="btn btn-danger deletebtn"> DELETE </button>|
                           <button type="button" class="btn btn-success editbtn"> EDIT </button>
