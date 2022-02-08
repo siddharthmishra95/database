@@ -1,6 +1,11 @@
 <?php 
 include('config/dbconfig.php');
 include ('shared/header.php');
+session_start();
+if(!($_SESSION['name']==''))
+{
+ header('location:recruiter/dashboard.php');
+}
 ?>
 <?php 
   if(isset($_POST["btn-login"]))

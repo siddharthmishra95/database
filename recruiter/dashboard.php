@@ -663,6 +663,59 @@ if($_SESSION['name']=='')
             </div>
           </div>
           <!-- USERS TODAYS REPORTING IN GRAPH ENDS -->
+
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Todays Joining</h4>
+                  <?php
+                    $noresults = true;   
+                    $today = date('Y-m-d');
+                    $result = mysqli_query($conn, "SELECT * FROM `products` WHERE doj = '$today' AND status = 'YTJ'  " );
+                  ?>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th> Candidate Name </th>
+                          <th> Date Offer </th>
+                          <th> Status </th>
+                          <th> Phone No. </th>
+                          <th> Salary </th>
+                        </tr>
+                      </thead>
+                      <?php while ($row = $result->fetch_assoc()) {
+                                  $noresults = false;                    # code...
+                        ?>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <img src="<?php echo BASE_URL; ?>assets/images/faces/face1.jpg" class="me-2" alt="image">
+                            <?= $row['candidatename']; ?>
+                          </td>
+                          <td> <?= $row['datoffer']; ?> </td>
+                          <td>
+                            <label class="badge badge-gradient-success"><?= $row['status']; ?></label>
+                          </td>
+                          <td> <?= $row['contact']; ?> </td>
+                          <td> <?= $row['sal']; ?> </td>
+                        </tr>
+                        <?php }
+                          if($noresults){
+                            echo '<div class="jumbotron">
+                                    <h1>No Joinings Today</h1>                  
+                                  </div>';
+                          }
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <?php  } elseif($role == "users") { ?>
           <div class="row">
             <div class="col-xl-3 col-lg-3 col-md-3 col-sm-6 grid-margin stretch-card">
@@ -765,45 +818,6 @@ if($_SESSION['name']=='')
                   <p class="text-muted mt-3 mb-0">
                     <i class="mdi mdi-reload mr-1" aria-hidden="true"></i>Present In Database
                   </p>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 stretch-card grid-margin">
-              <div class="card bg-gradient-danger card-img-holder text-white">
-                <div class="card-body">
-                  <img src="<?php echo BASE_URL; ?>/assets/images/dashboard/circle.svg" class="card-img-absolute"
-                    alt="circle-image" />
-                  <h4 class="font-weight-normal mb-3">Weekly Sales <i
-                      class="mdi mdi-chart-line mdi-24px float-right"></i>
-                  </h4>
-                  <h2 class="mb-5">$ 15,0000</h2>
-                  <h6 class="card-text">Increased by 60%</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 stretch-card grid-margin">
-              <div class="card bg-gradient-info card-img-holder text-white">
-                <div class="card-body">
-                  <img src="<?php echo BASE_URL; ?>/assets/images/dashboard/circle.svg" class="card-img-absolute"
-                    alt="circle-image" />
-                  <h4 class="font-weight-normal mb-3">Weekly Orders <i
-                      class="mdi mdi-bookmark-outline mdi-24px float-right"></i>
-                  </h4>
-                  <h2 class="mb-5">45,6334</h2>
-                  <h6 class="card-text">Decreased by 10%</h6>
-                </div>
-              </div>
-            </div>
-            <div class="col-md-4 stretch-card grid-margin">
-              <div class="card bg-gradient-success card-img-holder text-white">
-                <div class="card-body">
-                  <img src="<?php echo BASE_URL; ?>/assets/images/dashboard/circle.svg" class="card-img-absolute"
-                    alt="circle-image" />
-                  <h4 class="font-weight-normal mb-3">Visitors Online <i
-                      class="mdi mdi-diamond mdi-24px float-right"></i>
-                  </h4>
-                  <h2 class="mb-5">95,5741</h2>
-                  <h6 class="card-text">Increased by 5%</h6>
                 </div>
               </div>
             </div>
@@ -1235,7 +1249,57 @@ if($_SESSION['name']=='')
             </div>
           </div>
 
-
+          <div class="row">
+            <div class="col-12 grid-margin">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="card-title">Todays Joining</h4>
+                  <?php
+                    $noresults = true;   
+                    $today = date('Y-m-d');
+                    $result = mysqli_query($conn, "SELECT * FROM `products` WHERE doj = '$today' AND status = 'YTJ' AND empid=$_SESSION[empid] " );
+                  ?>
+                  <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th> Candidate Name </th>
+                          <th> Date Offer </th>
+                          <th> Status </th>
+                          <th> Phone No. </th>
+                          <th> Salary </th>
+                        </tr>
+                      </thead>
+                      <?php while ($row = $result->fetch_assoc()) {
+                                  $noresults = false;                    # code...
+                        ?>
+                      <tbody>
+                        <tr>
+                          <td>
+                            <img src="<?php echo BASE_URL; ?>assets/images/faces/face1.jpg" class="me-2" alt="image">
+                            <?= $row['candidatename']; ?>
+                          </td>
+                          <td> <?= $row['datoffer']; ?> </td>
+                          <td>
+                            <label class="badge badge-gradient-success"><?= $row['status']; ?></label>
+                          </td>
+                          <td> <?= $row['contact']; ?> </td>
+                          <td> <?= $row['sal']; ?> </td>
+                        </tr>
+                        <?php }
+                          if($noresults){
+                            echo '<div class="jumbotron">
+                                    <h1>No Joinings Today</h1>                  
+                                  </div>';
+                          }
+                        ?>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
           <?php } elseif($role == "Admin") { ?>
           Admin
           <?php  } elseif($role == "tempusers") { ?>
@@ -1308,68 +1372,20 @@ if($_SESSION['name']=='')
 
 
 
-          <div class="row">
-            <div class="col-12 grid-margin">
-              <div class="card">
-                <div class="card-body">
-                  <h4 class="card-title">Todays Joining</h4>
-                  <?php
-                    $noresults = true;   
-                    $today = date('Y-m-d');
-                    $result = mysqli_query($conn, "SELECT * FROM `products` WHERE doj = '$today' AND status = 'YTJ' AND empid=$_SESSION[empid] " );
-                  ?>
-                  <div class="table-responsive">
-                    <table class="table">
-                      <thead>
-                        <tr>
-                          <th> Candidate Name </th>
-                          <th> Date Offer </th>
-                          <th> Status </th>
-                          <th> Phone No. </th>
-                          <th> Salary </th>
-                        </tr>
-                      </thead>
-                      <?php while ($row = $result->fetch_assoc()) {
-                                  $noresults = false;                    # code...
-                        ?>
-                      <tbody>
-                        <tr>
-                          <td>
-                            <img src="<?php echo BASE_URL; ?>assets/images/faces/face1.jpg" class="me-2" alt="image">
-                            <?= $row['candidatename']; ?>
-                          </td>
-                          <td> <?= $row['datoffer']; ?> </td>
-                          <td>
-                            <label class="badge badge-gradient-success"><?= $row['status']; ?></label>
-                          </td>
-                          <td> <?= $row['contact']; ?> </td>
-                          <td> <?= $row['sal']; ?> </td>
-                        </tr>
-                        <?php }
-                          if($noresults){
-                            echo '<div class="jumbotron">
-                                    <h1>No Joinings Today</h1>                  
-                                  </div>';
-                          }
-                        ?>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+
 
         </div>
         <!-- content-wrapper ends -->
         <!-- partial:partials/_footer.html -->
         <footer class="footer">
           <div class="container-fluid d-flex justify-content-between">
-            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright © bootstrapdash.com
-              2021</span>
+            <span class="text-muted d-block text-center text-sm-start d-sm-inline-block">Copyright ©
+              innovationtriggers.com
+              <?php echo date("Y"); ?>
+            </span>
             <span class="float-none float-sm-end mt-1 mt-sm-0 text-end"> Free <a
-                href="https://www.bootstrapdash.com/bootstrap-admin-template/" target="_blank">Bootstrap admin
-                template</a> from Bootstrapdash.com</span>
+                href="https://www.innovationtriggers.com" target="_blank">Innovation Triggers Admin
+              </a> Innovationtriggers.com</span>
           </div>
         </footer>
         <!-- partial -->
